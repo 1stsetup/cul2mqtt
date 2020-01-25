@@ -8,6 +8,8 @@ module.exports = require('yargs')
     .describe('m', 'file containing name mappings')
     .describe('s', 'CUL serial port')
     .describe('c', 'CUL mode')
+    .describe('username', 'mqtt username to use')
+    .describe('password', 'password for mqtt user')
     .alias({
         h: 'help',
         n: 'name',
@@ -15,7 +17,9 @@ module.exports = require('yargs')
         v: 'verbosity',
         s: 'serialport',
         m: 'map-file',
-        c: 'cul-mode'
+        c: 'cul-mode',
+        username: 'mqtt-username',
+        password: 'mqtt-password'
     })
     .default({
         u: 'mqtt://127.0.0.1',

@@ -20,7 +20,14 @@ log.setLevel(config.verbosity);
 log.info(pkg.name, pkg.version, 'starting');
 
 log.info('mqtt trying to connect', config.url);
-const mqtt = Mqtt.connect(config.url, {will: {topic: config.name + '/connected', payload: '0', retain: true}});
+
+const options = {will: {topic: config.name + '/connected', payload: '0', retain: true}};
+if (config.username && config.password) {
+    options.username = config.username;
+    options.password = config.password;
+}
+
+const mqtt = Mqtt.connect(config.url, options);
 
 function mqttPub(topic, payload, options) {
     if (typeof payload !== 'string') {
