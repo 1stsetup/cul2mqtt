@@ -2,10 +2,10 @@
   "name": "cul2mqtt",
   "version": "0.1.3",
   "dependencies": {
-    "cul": "latest",
-    "mqtt": "latest",
-    "yalm": "latest",
-    "yargs": "latest"
+    "cul": "^0.13.0",
+    "mqtt": "^2.15.1",
+    "yalm": "^4.1.0",
+    "yargs": "^11.0.0"
   },
   "engines": {
     "node": ">=6.0.0"
@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "camo-purge": "latest",
-    "cul": "latest",
+    "cul": "^0.13.0",
     "xo": "latest"
   },
   "scripts": {

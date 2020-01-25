@@ -8,6 +8,7 @@ module.exports = require('yargs')
     .describe('m', 'file containing name mappings')
     .describe('s', 'CUL serial port')
     .describe('c', 'CUL mode')
+    .describe('scc', 'Use cul device is scc')
     .describe('mqtt-username', 'mqtt username to use')
     .describe('mqtt-password', 'password for mqtt user')
     .alias({
@@ -24,6 +25,7 @@ module.exports = require('yargs')
         n: 'cul',
         v: 'info',
         s: '/dev/ttyACM0',
+        scc: false,
         m: path.join(__dirname, 'example-cul2mqtt.json'),
         c: 'SlowRF'
     })

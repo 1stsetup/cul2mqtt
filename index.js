@@ -22,9 +22,9 @@ log.info(pkg.name, pkg.version, 'starting');
 log.info('mqtt trying to connect', config.url);
 
 const options = {will: {topic: config.name + '/connected', payload: '0', retain: true}};
-if (config.username && config.password) {
-    options.username = config.username;
-    options.password = config.password;
+if (config["mqtt-username"] && config["mqtt-password"]) {
+    options.username = config["mqtt-username"];
+    options.password = config["mqtt-password"];
 }
 
 const mqtt = Mqtt.connect(config.url, options);
@@ -39,7 +39,8 @@ function mqttPub(topic, payload, options) {
 
 const cul = new Cul({
     serialport: config.serialport,
-    mode: config.culMode
+    mode: config.culMode,
+    scc: config.scc ? true : false
 });
 
 mqttPub(config.name + '/connected', culConnected ? '2' : '1', {retain: true});
@@ -57,13 +58,15 @@ mqtt.on('close', () => {
     }
 });
 
-mqtt.on('error', () => {
-    log.error('mqtt error ' + config.url);
+mqtt.on('error', (error) => {
+    log.error('mqtt error ' + config.url + ', error:'+error);
 });
 
 cul.on('ready', () => {
     log.info('cul ready');
     culConnected = true;
+    cul.write("V", () => {});
+
     mqttPub(config.name + '/connected', '2', {retain: true});
 });
 
@@ -124,10 +127,10 @@ cul.on('data', (raw, obj) => {
                 break;
 
             case 'MORITZ':
-                console.log("Moritz:"+JSON.stringify(obj.data,null,"\t"));
+                console.log("Moritz:"+JSON.stringify(obj,null,"\t"));
+	        if (!obj.data.msgType) break;
                 topic = prefix + map(obj.protocol + '/' + obj.address);
-                payload.val = obj.data.current;
-                payload.cul.em = obj.data;
+                payload.cul.data = obj.data;
                 if (obj.rssi) {
                     payload.cul.rssi = obj.rssi;
                 }
