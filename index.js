@@ -123,6 +123,21 @@ cul.on('data', (raw, obj) => {
                 mqttPub(topic, payload, {retain: false});
                 break;
 
+            case 'MORITZ':
+                console.log("Moritz:"+JSON.stringify(obj.data,null,"\t"));
+                topic = prefix + map(obj.protocol + '/' + obj.address);
+                payload.val = obj.data.current;
+                payload.cul.em = obj.data;
+                if (obj.rssi) {
+                    payload.cul.rssi = obj.rssi;
+                }
+                if (obj.device) {
+                    payload.cul.device = obj.device;
+                }
+                log.debug('>', topic, payload);
+                mqttPub(topic, payload, {retain: true});
+                break;
+
             default:
                 log.warn('unknown protocol', obj.protocol);
         }
