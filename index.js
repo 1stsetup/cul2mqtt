@@ -127,9 +127,9 @@ cul.on('data', (raw, obj) => {
                 break;
 
             case 'MORITZ':
-                console.log("Moritz:"+JSON.stringify(obj,null,"\t"));
-	        if (!obj.data.msgType) break;
+    	        if (!obj.data.msgType) break;
                 topic = prefix + map(obj.protocol + '/' + obj.address);
+                payload.cul.address = obj.address;
                 payload.cul.data = obj.data;
                 if (obj.rssi) {
                     payload.cul.rssi = obj.rssi;
